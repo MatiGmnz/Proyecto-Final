@@ -38,6 +38,23 @@ ex2.addEventListener("click", () => {
     logIn.close();
 })
 
+/* AHORA HAY QUE CHEQUEAR SI EXISTE EL CLIENTE, E IDEINTIFICAR QUIEN ESTÁ REGISTRADO,
+PARA DE AHI OBTENER LOS DATOS DEL TURNO.
+
+*IDENTIFICAR CLIENTE REGISTRADO
+
+*ASIGNAR EL TURNO DESEADO DENTRO DEL OBJETO
+
+* CREAR UN REGISTRO CON LOS TURNOS ANTERIORES
+
+*DAR POSIBILIDAD DE CANCELAR EL TURNO Y DESHACER CON 10SEGUNDOS DE TIEMPO
+
+
+
+
+
+AHORA PARA EL ADMINISTRADOR: REGISTRAR LOS TURNOS TOMADOS SEGUN LO QUE SE LE ASIGNÓ A CADA CLIENTE.*/
+
 
 registro.addEventListener("click", registrar);
 asignador.addEventListener("click", asignar)
@@ -171,3 +188,4 @@ buscador2.addEventListener('change', () => {
         }                 
     }
 });
+
