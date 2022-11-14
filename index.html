@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <title>Relax-Cetner</title>
+</head>
+<body>
+    <div class="container1">
+        <div class="form">
+            <input type="button" value="Registrarse" id="nuevaCuenta">
+            <input type="button" value="Tengo Cuenta" id="tieneCuenta">
+
+            <dialog  id="registrar">
+                <h2>Registrarse</h2>
+                <input required type="text" name="nombre" id="name" placeholder="Nombre">
+                <input required type="text" name="apellido" id="lastName" placeholder="Apellido">
+                <input required type="number" name="age" id="age" placeholder="Edad">
+                <input type="number" id="celular" name="celular" placeholder="Nro de telefono">
+                <input placeholder="Correo Electrónico" type="email" name="mail" id="mail">
+                <input placeholder="Contraseña" type="password" name="contraseña" id="contraseña">
+                <button id="registro">Registrar</button>
+                <button id="EX">X</button>
+            </dialog>
+            <dialog id="log-in">
+                <h2>Ingresar</h2>
+                <input placeholder="Correo Electrónico" type="email" id="mailExiste">
+                <input placeholder="Contraseña" type="password" id="passwordExiste">
+                <button>Ingresar</button>
+                <button id="EX2">X</button>
+            </dialog>
+        </div>
+        <fieldset class="form">
+            <h2>Asignar turnos</h2>
+            <label for="buscaNomb"></label><input type="text" name="buscador" id="buscaNomb" placeholder="Nombre del paciente"></label>
+            <label for="trat"><select name="trat" id="trat">
+                <option value="quiropraxia">Quiropraxia</option>
+                <option value="kinesiologia">kinesiología</option>
+                <option value="spa">Spa</option>
+            </select></label>
+            <label for="fecha"><input type="date" name="fecha" id="fecha"></label>
+            <label for="hora"><input type="time" name="hora" id="hora"></label>
+            <label for="boton"><button id="asignar">Asignar</button></label>
+            
+        </fieldset>
+        <fieldset class="form" id="contacto">
+            <h2>Buscar telefono de contacto:</h2>
+            <label for="buscaNomb2"></label><input type="text" name="buscador2" id="buscaNomb2" placeholder="Nombre del paciente"></label>
+            <label for="boton"><button>Buscar</button></label>
+        </fieldset>
+    </div>
+    <div class="container2">
+        <fieldset class="form">
+            <div class="top">
+                <h2>Turnos Agendados:</h2>
+                <button id="clean">Limpiar</button>
+            </div>
+            <div class="turnList" id="turnList">
+                
+            </div>
+        </fieldset>
+    </div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>    
+<script src="https://moment.github.io/luxon/global/luxon.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
