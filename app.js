@@ -21,6 +21,24 @@ const crearCuenta = document.getElementById("registrar");
 const ex = document.getElementById("EX");
 const ex2 = document.getElementById("EX2");
 const logIn = document.getElementById("log-in");
+const inicioSesion = document.getElementById("inicioSesion");
+const correoExiste = document.getElementById("mailExiste");
+const contraExiste = document.getElementById("passwordExiste");
+
+
+
+class cliente{
+    constructor(nombre, apellido, edad, celular, email, contraseña){
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = edad;
+        this.celular = celular;
+        this.turno = false;
+        this.email = email;
+        this.contraseña = contraseña;
+    }
+    
+};
 
 
 // Mostrar cajas donde se ingresan los datos para registrarse o loguearse.
@@ -38,61 +56,25 @@ tieneCuenta.addEventListener("click", () => {
 
 ex2.addEventListener("click", () => {
     logIn.close();
-})
-
-/* AHORA HAY QUE CHEQUEAR SI EXISTE EL CLIENTE, E IDEINTIFICAR QUIEN ESTÁ REGISTRADO,
-PARA DE AHI OBTENER LOS DATOS DEL TURNO.
-
-*IDENTIFICAR CLIENTE REGISTRADO
-
-*ASIGNAR EL TURNO DESEADO DENTRO DEL OBJETO
-
-* CREAR UN REGISTRO CON LOS TURNOS ANTERIORES
-
-*DAR POSIBILIDAD DE CANCELAR EL TURNO Y DESHACER CON 10SEGUNDOS DE TIEMPO
-
-
-
-
-
-AHORA PARA EL ADMINISTRADOR: REGISTRAR LOS TURNOS TOMADOS SEGUN LO QUE SE LE ASIGNÓ A CADA CLIENTE.*/
+});
 
 
 registro.addEventListener("click", registrar);
-asignador.addEventListener("click", asignar)
 
 
-class cliente{
-    constructor(nombre, apellido, edad, celular, email, contraseña){
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.edad = edad;
-        this.celular = celular;
-        this.turno = false;
-        this.email = email;
-        this.contraseña = contraseña;
-    }
-    
-}
+/* AHORA HAY QUE CHEQUEAR SI EXISTE EL CLIENTE, E IDEINTIFICAR QUIEN ESTÁ REGISTRADO,
+PARA DE AHI OBTENER LOS DATOS DEL TURNO.
+*IDENTIFICAR CLIENTE REGISTRADO
+*ASIGNAR EL TURNO DESEADO DENTRO DEL OBJETO
+* CREAR UN REGISTRO CON LOS TURNOS ANTERIORES
+*DAR POSIBILIDAD DE CANCELAR EL TURNO Y DESHACER CON 10SEGUNDOS DE TIEMPO
+AHORA PARA EL ADMINISTRADOR: REGISTRAR LOS TURNOS TOMADOS SEGUN LO QUE SE LE ASIGNÓ A CADA CLIENTE.
 
-class tratamientos{
-    constructor (tipo, precio, duracion){
-        this.tipo = tipo;
-        this.precio = precio;
-        this.duracion = duracion;   
-    }
-}
+fetch(https://api.npoint.io/6ab79143429dc99c0c60)
+*/
 
-let tratamiento = [];
+
 let clientes = [];
-
-tratamiento.push(new tratamientos("quiropraxia", 2500, "1hs"))
-tratamiento.push(new tratamientos("kinesiologia", 1500, "1hs"))
-tratamiento.push(new tratamientos("Spa", 3500, "3hs"))
-
-// Agrego los tratamientos a localStorage.
-localStorage.setItem("Tratamientos", JSON.stringify(tratamiento))
-
 
 
 //Registro nuevos clientes y los almaceno en el localStorage.
@@ -124,7 +106,23 @@ if(quePaciente !== null){
         
 }    
     
-console.log(clientes)
+console.log(clientes);
+
+
+
+let user = clientes.find(el => el.email === correoExiste.value)
+console.log(user);
+
+// Inicio sesion si el cliente ya está registrado
+inicioSesion.addEventListener("click", () => {
+    (user.contraseña === contraExiste.value) ? console.log(`ha ingresado ${user.nombre}`) : console.log("no hay usuario registrado");
+});
+
+
+
+
+
+asignador.addEventListener("click", asignar);
 
 function asignar(){
 
@@ -146,12 +144,10 @@ function asignar(){
                 case "spa":
                     paciente.turno = "Spa";
                     crearTurno()
-                    break;    
-    
+                    break;
             }
         }
     }
-
 }
 
 
@@ -192,6 +188,3 @@ buscador2.addEventListener('change', () => {
         }                 
     }
 });
-
-
-
