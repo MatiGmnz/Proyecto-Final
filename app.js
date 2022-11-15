@@ -2,6 +2,8 @@
 const nomb = document.getElementById("name");
 const lastName = document.getElementById("lastName");
 const age = document.getElementById("age");
+const mail = document.getElementById("mail");
+const contraseña = document.getElementById("contraseña");
 const buscador = document.getElementById("buscaNomb");
 const buscador2 = document.getElementById("buscaNomb2");
 const registro = document.getElementById("registro");
@@ -61,12 +63,14 @@ asignador.addEventListener("click", asignar)
 
 
 class cliente{
-    constructor(nombre, apellido, edad, celular){
+    constructor(nombre, apellido, edad, celular, email, contraseña){
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
         this.celular = celular;
         this.turno = false;
+        this.email = email;
+        this.contraseña = contraseña;
     }
     
 }
@@ -93,7 +97,7 @@ localStorage.setItem("Tratamientos", JSON.stringify(tratamiento))
 
 //Registro nuevos clientes y los almaceno en el localStorage.
 function registrar(){
-    clientes.push(new cliente(nomb.value, lastName.value, parseInt(age.value), parseInt(phone.value)));
+    clientes.push(new cliente(nomb.value, lastName.value, parseInt(age.value), parseInt(phone.value), mail.value, contraseña.value));
     Toastify({
 
         text: "Se ha registrado a: " + nomb.value + " " + lastName.value,
@@ -188,4 +192,6 @@ buscador2.addEventListener('change', () => {
         }                 
     }
 });
+
+
 
