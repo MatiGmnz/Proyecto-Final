@@ -57,3 +57,7 @@ input{
     padding: 3px 5px;
     margin-left: 35%;
 }
+
+.registro-logueo{
+    display: flex;
+}
