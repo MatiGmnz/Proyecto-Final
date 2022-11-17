@@ -11,8 +11,14 @@
 <body>
     <div class="container1">
         <div class="form">
-            <input type="button" value="Registrarse" id="nuevaCuenta">
-            <input type="button" value="Tengo Cuenta" id="tieneCuenta">
+            <div class="registro-logueo">
+                <h3>¿Es tu primera vez acá?</h3>
+                <input type="button" value="Tengo Cuenta" id="tieneCuenta">
+            </div>
+            <div class="registro-logueo">
+                <h3>¿Ya sos cliente?</h3>
+                <input type="button" value="Registrarse" id="nuevaCuenta">
+            </div>
 
             <dialog  id="registrar">
                 <h2>Registrarse</h2>
@@ -29,13 +35,13 @@
                 <h2>Ingresar</h2>
                 <input placeholder="Correo Electrónico" type="email" id="mailExiste">
                 <input placeholder="Contraseña" type="password" id="passwordExiste">
-                <button>Ingresar</button>
+                <button id="inicioSesion">Ingresar</button>
                 <button id="EX2">X</button>
             </dialog>
         </div>
         <fieldset class="form">
-            <h2>Asignar turnos</h2>
-            <label for="buscaNomb"></label><input type="text" name="buscador" id="buscaNomb" placeholder="Nombre del paciente"></label>
+            <h2>Tomar Turnos</h2>
+
             <label for="trat"><select name="trat" id="trat">
                 <option value="quiropraxia">Quiropraxia</option>
                 <option value="kinesiologia">kinesiología</option>
