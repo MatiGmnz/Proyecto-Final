@@ -69,12 +69,12 @@ PARA DE AHI OBTENER LOS DATOS DEL TURNO.
 * CREAR UN REGISTRO CON LOS TURNOS ANTERIORES
 *DAR POSIBILIDAD DE CANCELAR EL TURNO Y DESHACER CON 10SEGUNDOS DE TIEMPO
 AHORA PARA EL ADMINISTRADOR: REGISTRAR LOS TURNOS TOMADOS SEGUN LO QUE SE LE ASIGNÓ A CADA CLIENTE.
-
 fetch(https://api.npoint.io/6ab79143429dc99c0c60)
 */
 
 
 let clientes = [];
+let tratamientos = [];
 
 
 //Registro nuevos clientes y los almaceno en el localStorage.
@@ -109,70 +109,54 @@ if(quePaciente !== null){
 console.log(clientes);
 
 
-
-let user = clientes.find(el => el.email === correoExiste.value)
-console.log(user);
-
 // Inicio sesion si el cliente ya está registrado
 inicioSesion.addEventListener("click", () => {
-    (user.contraseña === contraExiste.value) ? console.log(`ha ingresado ${user.nombre}`) : console.log("no hay usuario registrado");
-});
+    const user = clientes.find(el => el.email === correoExiste.value);
+    console.log(user);
+
+    user.contraseña === contraExiste.value ? console.log(`ha ingresado ${user.nombre}`) : console.log("no hay usuario registrado"); 
+     
 
 
+    asignador.addEventListener("click", asignar);
 
-
-
-asignador.addEventListener("click", asignar);
-
-function asignar(){
-
-    for(let paciente of clientes){
-        if(paciente.nombre === buscador.value){
-            paciente.turno = true; 
-        }
-        
-        if(paciente.turno === true ){
+    function asignar(){
+        user.turno = true;
+           
+        if(user.turno === true ){
             switch(trat.value){
                 case "quiropraxia":
-                    paciente.turno = "Quiropraxia";
+                    user.turno = "Quiropraxia";
                     crearTurno()
                     break;
                 case "kinesiologia":
-                    paciente.turno = "Kinesiología";
+                    user.turno = "Kinesiología";
                     crearTurno()
                     break;
                 case "spa":
-                    paciente.turno = "Spa";
+                    user.turno = "Spa";
                     crearTurno()
                     break;
             }
         }
     }
-}
+    
 
 
-//Cuando se asigna un turno a un cliente, se crea un cartel con el turno correspondiente.
-function crearTurno(){
-    let buscar = buscador.value;
-    for(let pacient of clientes){
+
+    //Cuando se asigna un turno a un cliente, se crea un cartel con el turno correspondiente.
+    function crearTurno(){
         const ul = document.createElement('p');
         ul.innerHTML = `<div class ="turno">
-                            ${pacient.nombre} tiene turno a ${pacient.turno}, el día ${fecha.value} a las ${hora.value}
+                            ${user.nombre} tiene turno a ${user.turno}, el día ${fecha.value} a las ${hora.value}
                         </div>`; 
-        if(buscar === pacient.nombre){                     
-            turn.appendChild(ul);
-        }
+                            
+         turn.appendChild(ul);  
     }
-    e.preventDefault()
-}
+       
+    
 
-
-// Se elimina el turno
-limpiador.addEventListener("click", () => {
-    turn.remove()
-})
-
-
+});
 
 
 // BUSCADOR DE NRO DE TELÉFONO
@@ -188,3 +172,14 @@ buscador2.addEventListener('change', () => {
         }                 
     }
 });
+
+
+fetch("https://api.npoint.io/8cd7747040e28db5e61f").then((Response)=>{
+    return Response.json();
+}).then(tratamientosJSON => {
+    for(let trat of tratamientosJSON){
+        tratamientos.push(trat)
+    }
+})
+
+console.log(tratamientos)
