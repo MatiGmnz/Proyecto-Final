@@ -102,7 +102,6 @@ const quePaciente = localStorage.getItem("clientes");
 
 if(quePaciente !== null){
         clientes = JSON.parse(quePaciente);
-        
 }    
     
 console.log(clientes);
@@ -126,44 +125,65 @@ inicioSesion.addEventListener("click", () => {
 
         if(user.turno === true ){
             switch(trat.value){
-                case "quiropraxia":
+                case "quiropraxia": // Se asigna el turno seleccionado, y se lo guarda en el LS
                     user.turno = "Quiropraxia";
                     user.turnoActual.push(new losTurnos(trat.value, fecha.value, hora.value))
-                    //user.historial.push(trat.value, fecha.value, hora.value)
-                    console.log("turno actual:" + user.turnoActual.tratamiento)
+                    user.historial.push(new losTurnos(trat.value, fecha.value, hora.value))
                     crearTurno()
+                    console.log(user.historial)
                     break;
                 case "kinesiologia":
                     user.turno = "Kinesiología";
                     user.turnoActual.push(new losTurnos(trat.value, fecha.value, hora.value))
-                    console.log("turno actual:" + user.turnoActual.tratamiento)
+                    user.historial.push(new losTurnos(trat.value, fecha.value, hora.value))
                     crearTurno()
+                    console.log(user.historial)
                     break;
                 case "spa":
                     user.turno = "Spa";
                     user.turnoActual.push(new losTurnos(trat.value, fecha.value, hora.value))
-                    console.log("turno actual:" + user.turnoActual.tratamiento)
+                    user.historial.push(new losTurnos(trat.value, fecha.value, hora.value))
                     crearTurno()
+                    console.log(user.historial)
                     break;
             }
         }
     }
-    
 
 
 
     //Cuando se asigna un turno a un cliente, se crea un cartel con el turno correspondiente.
     function crearTurno(){
-        
             const ul = document.createElement('p');
             ul.innerHTML = `<div class ="turno">
                                 ${user.nombre} tiene turno a ${trat.value}, el día ${fecha.value} a las ${hora.value}
-                            </div>
-                            <button onclick="transpaso()">Confimar</button>`; 
+                            </div> `
                                 
             turn.appendChild(ul);  
+
+            //Una vez asistido al turno, se pasa a un historial de turnos.
+
+            limpiador.addEventListener("click", () => {
+                ul.remove();
+
+                let past = document.getElementById("historial");
+            
+                    const lista = document.createElement("p");
+            
+                    lista.innerHTML = `<div class ="turno">
+                                            ${user.nombre} Fue a ${trat.value}, el día ${fecha.value} a las ${hora.value}
+                                        </div>`
+                    
+                    past.appendChild(lista)
+            })  
+            
         
-    }
+    };
+
+
+    
+    
+    
 
 
 
@@ -186,4 +206,3 @@ inicioSesion.addEventListener("click", () => {
 showTratamientos()
 
 });
-
