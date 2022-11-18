@@ -5,7 +5,6 @@ const age = document.getElementById("age");
 const mail = document.getElementById("mail");
 const contraseña = document.getElementById("contraseña");
 const buscador = document.getElementById("buscaNomb");
-const buscador2 = document.getElementById("buscaNomb2");
 const registro = document.getElementById("registro");
 const phone = document.getElementById("celular");
 const asignador = document.getElementById("asignar");
@@ -28,7 +27,7 @@ const contraExiste = document.getElementById("passwordExiste");
 
 
 class cliente{
-    constructor(nombre, apellido, edad, celular, email, contraseña){
+    constructor(nombre, apellido, edad, celular, email, contraseña, turnoActual, historial){
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
@@ -36,10 +35,19 @@ class cliente{
         this.turno = false;
         this.email = email;
         this.contraseña = contraseña;
+        this.turnoActual = turnoActual;
+        this.historial = historial;
     }
     
 };
 
+class losTurnos{
+    constructor(tratamiento, estaFecha, estaHora){
+        this.tratamiento = tratamiento;
+        this.estaFecha = estaFecha;
+        this.estaHora = estaHora;
+    }
+}
 
 // Mostrar cajas donde se ingresan los datos para registrarse o loguearse.
 nuevaCuenta.addEventListener("click", () => {
@@ -62,15 +70,6 @@ ex2.addEventListener("click", () => {
 registro.addEventListener("click", registrar);
 
 
-/* AHORA HAY QUE CHEQUEAR SI EXISTE EL CLIENTE, E IDEINTIFICAR QUIEN ESTÁ REGISTRADO,
-PARA DE AHI OBTENER LOS DATOS DEL TURNO.
-*IDENTIFICAR CLIENTE REGISTRADO
-*ASIGNAR EL TURNO DESEADO DENTRO DEL OBJETO
-* CREAR UN REGISTRO CON LOS TURNOS ANTERIORES
-*DAR POSIBILIDAD DE CANCELAR EL TURNO Y DESHACER CON 10SEGUNDOS DE TIEMPO
-AHORA PARA EL ADMINISTRADOR: REGISTRAR LOS TURNOS TOMADOS SEGUN LO QUE SE LE ASIGNÓ A CADA CLIENTE.
-fetch(https://api.npoint.io/6ab79143429dc99c0c60)
-*/
 
 
 let clientes = [];
@@ -115,26 +114,35 @@ inicioSesion.addEventListener("click", () => {
     console.log(user);
 
     user.contraseña === contraExiste.value ? console.log(`ha ingresado ${user.nombre}`) : console.log("no hay usuario registrado"); 
-     
 
 
+//En esta funcion se le permite al cliente logueado solicitar el turno que desee
     asignador.addEventListener("click", asignar);
 
     function asignar(){
         user.turno = true;
-           
+        user.turnoActual = [];
+        user.historial = [];
+
         if(user.turno === true ){
             switch(trat.value){
                 case "quiropraxia":
                     user.turno = "Quiropraxia";
+                    user.turnoActual.push(new losTurnos(trat.value, fecha.value, hora.value))
+                    //user.historial.push(trat.value, fecha.value, hora.value)
+                    console.log("turno actual:" + user.turnoActual.tratamiento)
                     crearTurno()
                     break;
                 case "kinesiologia":
                     user.turno = "Kinesiología";
+                    user.turnoActual.push(new losTurnos(trat.value, fecha.value, hora.value))
+                    console.log("turno actual:" + user.turnoActual.tratamiento)
                     crearTurno()
                     break;
                 case "spa":
                     user.turno = "Spa";
+                    user.turnoActual.push(new losTurnos(trat.value, fecha.value, hora.value))
+                    console.log("turno actual:" + user.turnoActual.tratamiento)
                     crearTurno()
                     break;
             }
@@ -146,40 +154,36 @@ inicioSesion.addEventListener("click", () => {
 
     //Cuando se asigna un turno a un cliente, se crea un cartel con el turno correspondiente.
     function crearTurno(){
-        const ul = document.createElement('p');
-        ul.innerHTML = `<div class ="turno">
-                            ${user.nombre} tiene turno a ${user.turno}, el día ${fecha.value} a las ${hora.value}
-                        </div>`; 
-                            
-         turn.appendChild(ul);  
+        
+            const ul = document.createElement('p');
+            ul.innerHTML = `<div class ="turno">
+                                ${user.nombre} tiene turno a ${trat.value}, el día ${fecha.value} a las ${hora.value}
+                            </div>
+                            <button onclick="transpaso()">Confimar</button>`; 
+                                
+            turn.appendChild(ul);  
+        
     }
-       
-    
-
-});
 
 
-// BUSCADOR DE NRO DE TELÉFONO
-buscador2.addEventListener('change', () => {
-    let valor = buscador2.value;
-    console.log(valor)
-    for(const cte of clientes){
+
+    // Renderizo los tratamientos cargados en la API
+    async function showTratamientos(){
+    const response = await fetch("https://api.npoint.io/8cd7747040e28db5e61f");
+    const listaTratamientos = await response.json();
+
+    console.log(listaTratamientos);
+
+    for(let lista of listaTratamientos){
         let dato = document.createElement('p');
-        dato.innerHTML = `Nombre: ${cte.nombre}<br>
-                        Teléfono: ${cte.celular}`;
-        if(valor === cte.nombre){
-            contacto.appendChild(dato); 
-        }                 
+        dato.innerHTML = `Tratamiento: ${lista.nombre}<br>
+                        Duración: ${lista.duracion} minutos.<br>
+                        Precio: "$"${lista.precio}`;
+
+        contacto.appendChild(dato)
     }
+}
+showTratamientos()
+
 });
 
-
-fetch("https://api.npoint.io/8cd7747040e28db5e61f").then((Response)=>{
-    return Response.json();
-}).then(tratamientosJSON => {
-    for(let trat of tratamientosJSON){
-        tratamientos.push(trat)
-    }
-})
-
-console.log(tratamientos)
