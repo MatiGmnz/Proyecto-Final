@@ -112,7 +112,23 @@ inicioSesion.addEventListener("click", () => {
     const user = clientes.find(el => el.email === correoExiste.value);
     console.log(user);
 
-    user.contraseña === contraExiste.value ? console.log(`ha ingresado ${user.nombre}`) : console.log("no hay usuario registrado"); 
+    if (user.contraseña === contraExiste.value) {
+        Swal.fire({
+            title: 'Bienvenid@',
+            text: user.nombre,
+            
+            confirmButtonText: 'Continuar'
+          });
+          logIn.close();
+    }else{
+        Swal.fire({
+            title: 'Error!',
+            text: 'No se encontró este usuario',
+            icon: 'error',
+            confirmButtonText: 'Reintentar'
+          });
+          logIn.close();
+    }
 
 
 //En esta funcion se le permite al cliente logueado solicitar el turno que desee
